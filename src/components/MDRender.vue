@@ -1,16 +1,20 @@
 <template>
-  <div id="editor-holder">
+  <div class="md-render">
     <div id="editor">
       <textarea v-model="rawMD" placeholder="Write the markdown here..."></textarea>
       <div v-html="renderedMD"></div>
+    </div>
+    <div id = "h">
+      <hello></hello>
     </div>
   </div>
 </template>
 
 <script>
 import marked from 'marked'
+import Hello from './Hello.vue'
 export default {
-  name: 'md',
+  // name: 'mdRender',
   data() {
     return {
       rawMD: ''
@@ -20,12 +24,15 @@ export default {
     renderedMD() {
       return marked(this.rawMD, { sanitize: true })
     }
+  },
+  components: {
+    Hello
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 html,
 body,
 #editor{
@@ -40,7 +47,7 @@ body,
   font-size: 14px;
 }
 
-#editor-holder {
+.md-render {
   height: 400px;
 }
 
@@ -64,7 +71,8 @@ textarea{
   font-family: 'Monaco', courier, monospace;
   padding: 20px;
 }
-
+</style>
+<style>
 code {
   color: #f66;
 }
