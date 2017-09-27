@@ -51,7 +51,7 @@ export default {
   props: ['subjects'],
   methods: {
     onTopBarClick: function(item, selected) {
-      for (var index in this.subjects) {
+      for (let index in this.subjects) {
         this.subjects[index].active = false
       }
       this.subjects[selected].active = true

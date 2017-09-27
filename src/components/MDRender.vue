@@ -1,7 +1,7 @@
 <template>
   <div class="md-render">
     <top-bar :subjects="subjects"></top-bar>
-    <div id="editor">
+    <div id="editor" :style="{height: computedHeight}">
       <textarea v-model="rawMD" placeholder="Write the markdown here..."></textarea>
       <div v-html="renderedMD"></div>
     </div>
@@ -34,24 +34,41 @@ export default {
           active: false
         }
       ],
-      curScreenHeight: 500
+      curScreenHeight: document.documentElement.clientHeight
     }
+  },
+  // bind event handlers to the `handleResize` method (defined below)
+  mounted() {
+    window.addEventListener('resize', this.handleWindowResize)
+  },
+  beforeDestroy: function() {
+    window.removeEventListener('resize', this.handleWindowResize)
   },
   computed: {
     renderedMD() {
       return marked(this.rawMD, { sanitize: true })
     },
-    setMdHeight: function() {
-      return (this.curScreenHeight.height - 40).toString() + 'px'
+    computedHeight() {
+      return (this.curScreenHeight - 80).toString() + 'px'
     }
   },
-  mounted() {
-    this.curScreenHeight = document.documentElement.clientHeight
-    const that = this
-    window.onresize = function temp() {
-      that.curScreenHeight = document.documentElement.clientHeight
+
+  methods: {
+    handleWindowResize: function(event) {
+      this.curScreenHeight = document.documentElement.clientHeight
+      console.log(this.curScreenHeight)
+      console.log(this.computedHeight)
     }
   },
+  // mounted() {
+  //   this.curScreenHeight = document.documentElement.clientHeight
+  //   const that = this
+  //   window.onresize = function temp() {
+  //     that.curScreenHeight = document.documentElement.clientHeight
+  //     console.log(this.curScreenHeight)
+  //     console.log(this.computedHeight)
+  //   }
+  // },
   components: {
     Hello,
     TopBar,
