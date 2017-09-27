@@ -1,8 +1,7 @@
 <template>
-  <div class="root">
+  <div class="top-bar">
     <div class="container">
       <div class="masthead">
-        <h3 class="text-muted">Look for it!</h3>
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
@@ -16,8 +15,8 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li v-for="slice of subjects">
-                  <a :class="{active: isActive}" href="#">{{slice}}</a>
+                <li v-for="(item,index) of subjects" :key="item.title" :class="{active: item.active}" @click="onTopBarClick(item, index)">
+                  <a href="#">{{item.title}}</a>
                 </li>
               </ul>
             </div>
@@ -31,16 +30,32 @@
 
 <script>
 export default {
-  name: 'root',
   data() {
     return {
-      subjects: ['self', 'title', 'hello']
+      subjects: [
+        {
+          title: 't',
+          active: true
+        },
+        {
+          title: 'b',
+          active: false
+        },
+        {
+          title: 'd',
+          active: false
+        }
+      ]
     }
   },
-  computed: {
-
-    isActive: function() { return this.slice === this.subjects[0] }
-
+  props: ['subjects'],
+  methods: {
+    onTopBarClick: function(item, selected) {
+      for (var index in this.subjects) {
+        this.subjects[index].active = false
+      }
+      this.subjects[selected].active = true
+    }
   }
 
 }

@@ -1,32 +1,61 @@
 <template>
   <div class="md-render">
+    <top-bar :subjects="subjects"></top-bar>
     <div id="editor">
       <textarea v-model="rawMD" placeholder="Write the markdown here..."></textarea>
       <div v-html="renderedMD"></div>
     </div>
-    <div id = "h">
-      <hello></hello>
-    </div>
+    <bo-footer></bo-footer>
   </div>
 </template>
 
 <script>
 import marked from 'marked'
 import Hello from './Hello.vue'
+import TopBar from './common/TopBar.vue'
+import BoFooter from './common/footer.vue'
+
 export default {
   // name: 'mdRender',
   data() {
     return {
-      rawMD: ''
+      rawMD: '',
+      subjects: [
+        {
+          title: 'bb',
+          active: true
+        },
+        {
+          title: 'dd',
+          active: false
+        },
+        {
+          title: 'cc',
+          active: false
+        }
+      ],
+      curScreenHeight: 500
     }
   },
   computed: {
     renderedMD() {
       return marked(this.rawMD, { sanitize: true })
+    },
+    setMdHeight: function() {
+      return (this.curScreenHeight.height - 40).toString() + 'px'
+    }
+  },
+  mounted() {
+    this.curScreenHeight = document.documentElement.clientHeight
+    const that = this
+    window.onresize = function temp() {
+      that.curScreenHeight = document.documentElement.clientHeight
     }
   },
   components: {
-    Hello
+    Hello,
+    TopBar,
+    BoFooter
   }
 }
 </script>
@@ -35,7 +64,7 @@ export default {
 <style>
 html,
 body,
-#editor{
+#editor {
   margin: 0;
   height: 100%;
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -48,7 +77,8 @@ body,
 }
 
 .md-render {
-  height: 400px;
+  margin: 40px;
+  height: 100vh;
 }
 
 textarea,
@@ -61,7 +91,7 @@ textarea,
   padding: 0 20px;
 }
 
-textarea{
+textarea {
   border: none;
   border-right: 1px solid #ccc;
   resize: none;
