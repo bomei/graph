@@ -7,8 +7,8 @@
       <div class='xuanxiang'>
         <ul>
           <li v-for="(v, k) of xuanxiang" :key="k">
-            <input type="radio" :value="v" v-model="checkedNames" @click="isCorrect()">
-            <label :for="v">{{v+' . '+question[v]}}</label>
+            <input type="radio" :value="v" :id='"danxuan"+question["序号"]+v' v-model="checkedNames" @click="isCorrect()">
+            <label :for='"danxuan"+question["序号"]+v'>{{v+' . '+question[v]}}</label>
           </li>
         </ul>
       </div>

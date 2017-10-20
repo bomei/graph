@@ -5,10 +5,10 @@
         {{tigan}}
       </div>
       <div class='xuanxiang'>
-        <input type="radio" value="1" v-model="checkedNames" @click="isCorrect()">
-        <label for="1">正确</label>
-        <input type="radio" value="0" v-model="checkedNames" @click="isCorrect()">
-        <label for="0">错误</label>
+        <input type="radio" value="1" :id='"panduan"+question["序号"]+1' v-model="checkedNames" @click="isCorrect()">
+        <label :for='"panduan"+question["序号"]+1'>正确</label>
+        <input type="radio" value="0" :id='"panduan"+question["序号"]+0' v-model="checkedNames" @click="isCorrect()">
+        <label :for='"panduan"+question["序号"]+0'>错误</label>
         <br>
       </div>
       <div ><span>{{showResult?correctAnswer:'&nbsp;'}}</span></div>
