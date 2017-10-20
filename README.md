@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+> Work fine with flask project [flask_and_vue](https://github.com/bomei/flask_and_vue) as backend
+
 ## Build Setup
 
 ``` bash
