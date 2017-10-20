@@ -1,5 +1,10 @@
 <template>
   <div class="top-bar">
+    <!-- <ul class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="#">Home</a></li>
+      <li role="presentation"><a href="#">Profile</a></li>
+      <li role="presentation"><a href="#">Messages</a></li>
+    </ul> -->
     <div class="container">
       <div class="masthead">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -16,8 +21,15 @@
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
                 <li v-for="(item,index) of subjects" :key="item.title" :class="{active: item.active}" @click="onTopBarClick(item, index)">
-                  <a href="#">{{item.title}}</a>
+                  <a href="#" @click="change(item.title)">{{item.title}}</a>
                 </li>
+                <li>
+                  <a href='#' @click="toggleResult()">{{ showResult? '关闭答案' : '查看结果'}}</a>
+                </li>
+                <li>
+                  <a href='#' @click="loadJson()">Load</a>
+                </li>
+
               </ul>
             </div>
             <!--/.nav-collapse -->
@@ -32,23 +44,9 @@
 export default {
   data() {
     return {
-      subjects: [
-        {
-          title: 't',
-          active: true
-        },
-        {
-          title: 'b',
-          active: false
-        },
-        {
-          title: 'd',
-          active: false
-        }
-      ]
     }
   },
-  props: ['subjects'],
+  props: ['subjects', 'change', 'toggleResult', 'showResult', 'loadJson'],
   methods: {
     onTopBarClick: function(item, selected) {
       for (let index in this.subjects) {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import Hello from '@/components/Hello'
 import MDRender from '@/components/MDRender'
+import Qiangji from '@/components/Qiangji'
 
 Vue.use(Router)
 
@@ -15,8 +16,8 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Hello',
-      component: MDRender
+      name: 'Qiangji',
+      component: Qiangji
     }
   ]
 })

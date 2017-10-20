@@ -89,6 +89,20 @@ class BoMongo {
       db.close()
     })
   }
+
+  find(collection, get, limit, callback) {
+    MongoClient.connect(this.url, (err, db) => {
+      assert.equal(null, err)
+      db.collection(collection).find(get).limit(limit).toArray((err, docs) => {
+        assert.equal(null, err)
+        assert.equal(limit, docs.length)
+        db.close
+        return docs
+      })
+    })
+  }
 }
 
-module.exports = BoMongo
+export default {
+  BoMongo
+}

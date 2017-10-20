@@ -1,9 +1,14 @@
 <template>
-  <div class="md-render">
-    <top-bar :subjects="subjects"></top-bar>
-    <div id="editor" :style="{height: computedHeight}">
-      <textarea v-model="rawMD" placeholder="Write the markdown here..."></textarea>
-      <div v-html="renderedMD"></div>
+  <div class="md-render" :style="{height: computedHeight}">
+    <!-- <top-bar :subjects="subjects"></top-bar> -->
+    <div id='md-index' :style="{width: leftWidth}">
+      <index-row></index-row>
+    </div>
+    <div id="editor" :style="{width: rightWidth}">
+      <div class='left-workspace'>
+        <textarea v-model="rawMD" placeholder="Write the markdown here..."></textarea>
+      </div>
+      <div v-html="renderedMD" class='right-workspace'></div>
     </div>
     <bo-footer></bo-footer>
   </div>
@@ -14,6 +19,7 @@ import marked from 'marked'
 import Hello from './Hello.vue'
 import TopBar from './common/TopBar.vue'
 import BoFooter from './common/footer.vue'
+import IndexRow from './indexRow/indexRow.vue'
 
 export default {
   // name: 'mdRender',
@@ -34,7 +40,8 @@ export default {
           active: false
         }
       ],
-      curScreenHeight: document.documentElement.clientHeight
+      curScreenHeight: document.documentElement.clientHeight,
+      curScreenWidth: document.documentElement.clientWidth
     }
   },
   // bind event handlers to the `handleResize` method (defined below)
@@ -49,30 +56,28 @@ export default {
       return marked(this.rawMD, { sanitize: true })
     },
     computedHeight() {
-      return (this.curScreenHeight - 80).toString() + 'px'
+      return (this.curScreenHeight - 40).toString() + 'px'
+    },
+    leftWidth() {
+      return ((this.curScreenWidth * 0.15) > 250 ? '' + (this.curScreenWidth * 0.15) + 'px' : '250px')
+    },
+    rightWidth() {
+      return (this.curScreenWidth - 30 - parseInt(this.leftWidth) + 'px')
     }
   },
-
   methods: {
     handleWindowResize: function(event) {
       this.curScreenHeight = document.documentElement.clientHeight
+      this.curScreenWidth = document.documentElement.clientWidth
       console.log(this.curScreenHeight)
       console.log(this.computedHeight)
     }
   },
-  // mounted() {
-  //   this.curScreenHeight = document.documentElement.clientHeight
-  //   const that = this
-  //   window.onresize = function temp() {
-  //     that.curScreenHeight = document.documentElement.clientHeight
-  //     console.log(this.curScreenHeight)
-  //     console.log(this.computedHeight)
-  //   }
-  // },
   components: {
     Hello,
     TopBar,
-    BoFooter
+    BoFooter,
+    IndexRow
   }
 }
 </script>
@@ -93,19 +98,38 @@ body,
   font-size: 14px;
 }
 
-.md-render {
-  margin: 40px;
-  height: 100vh;
-}
-
-textarea,
-#editor div {
+#editor {
   display: inline-block;
-  width: 49%;
+  /* width: 86%; */
   height: 100%;
   vertical-align: top;
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 0 5px;
+}
+
+#md-index {
+  display: inline-block;
+  /* width: 12%; */
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 5px;
+  /* min-width: 300px; */
+}
+
+.md-render {
+  padding-top: 10px;
+  height: 100vh;
+  width: 100%;
+}
+
+textarea {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 5px;
 }
 
 textarea {
@@ -116,8 +140,32 @@ textarea {
   background-color: #f6f6f6;
   font-size: 14px;
   font-family: 'Monaco', courier, monospace;
-  padding: 20px;
+  padding: 5px;
 }
+
+.left-workspace {
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 5px;
+}
+
+.right-workspace {
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 5px;
+  overflow: auto;
+}
+
+.bo-footer p{
+  margin: 0;
+}
+
 </style>
 <style>
 code {

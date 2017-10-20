@@ -26,4 +26,8 @@ function testUpdateMany() {
   })
 }
 
-testUpdateMany()
+function test() {
+  testInsert()
+  testUpdateOne()
+  testUpdateMany()
+}
